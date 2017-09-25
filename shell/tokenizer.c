@@ -84,7 +84,8 @@ char * cpyToken(char * str2, int tkSize){  //returns the token
 void printVec(char ** tokenVec){
     for (; *tokenVec; tokenVec++){
         write(1,"Token: ",7);
-        write(1,*tokenVec,30);
+        printf(*tokenVec); ff;
+        //write(1,*tokenVec,sizeof(char *)*2);
         write(1,"\n",1);
     }
 }
@@ -120,7 +121,8 @@ char ** myTock2(char str0 [], char delim){
         tokenVec[i] = cpyToken(str2,tkSize);
         str = str2+tkSize;
     }
-    tokenVec[i] = '\0';  
+    tokenVec[i] = '\0';
+//    printf("Inside myTock2");
     return tokenVec;
 }
 
@@ -137,5 +139,6 @@ char ** myTock(char str [], char delim){
         str = str2+tkSize;
     }
     tokenVec[i] = '\0';  
+//    printf("Inside myTock");
     return tokenVec;
 }

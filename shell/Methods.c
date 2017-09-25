@@ -3,6 +3,16 @@
 #include <unistd.h>
 #define ff fflush(stdout);
 
+
+int getSize(char str []){ // returns size of string
+    char *tempPtr;
+    int strSize = 0;
+    for (tempPtr = str; *tempPtr != '\0'; tempPtr++){
+    strSize++;
+    }
+    return strSize;
+}
+
 int getKeyLoc(char ** envp, int keyLoc){
     char * Strtemp = envp[keyLoc];
         if(Strtemp[0] == 'P' && Strtemp[1] == 'A' && Strtemp[2] == 'T' &&
@@ -16,17 +26,36 @@ int getKeyLoc(char ** envp, int keyLoc){
     return -1;
 }
 
-char * appendStr(char * path, char * cmd){
-    char i;
-    
-    for( i = 0; path[i]!='\0'; i++);
-    
-    for(char j = 0; cmd[j]!='\0'; j++,i++)
-        path[i] = cmd[j];
-    
-    path[i] = '\0';
-    
-   // printf("Path: %s",path); ff;
-    
-    return path;
+void printStr(char tokenVec []){    
+    printf("\nFinal path: %s",tokenVec); ff;
+}
+
+int getPath(char ** envp){
+    int keyLoc = 0;
+    while(!getKeyLoc(envp, keyLoc)){
+        keyLoc++;
+    }
+
+    return keyLoc;
+}
+char * appendStr(char * s1, char * s2){
+  int s1num = getSize(s1);
+  int s2num = getSize(s2);
+  int len = s1num + s2num;
+  int i;
+  int j;
+  
+  char * curr = (char *) malloc(len+2);
+  curr[len] = '\0';
+  
+  for(i = 0; i < s1num; i ++){
+      curr[i] = s1[i];
+  }
+  curr[i] = '/'; i++;
+  
+  for(j = 0; j < s2num; j++){
+      curr[i] = s2[j];
+      i++;
+  }
+    return curr;
 }

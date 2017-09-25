@@ -25,50 +25,55 @@ int main(int argc, char **argv, char ** envp){
         exitShell = cmpExt(str);             // check if imput is "exit" command
         
         if(exitShell == 0){
-            //}else if (rc == 0) { // child (new process)
-            //    printf("hello, I am child (pid:%d)\n", (int) getpid()); //debuging
-                int keyLoc = 0;
-                char *myargs[argc];
+//        int keyLoc = 0;
+//    do i need this?            char *myargs[argc];
                 
                 char ** cmdVec = myTock(str,' ');                    //tokenize
+                argv = myTock(str,' '); 
                 
-                while(!getKeyLoc(envp, keyLoc)){
-                    keyLoc++;
-                   // printf("KeyLoc val %d",keyLoc); ff;
-                }
-//                printf("KeyLoc val %d",keyLoc); ff;
-                char ** thePath = myTock2(envp[keyLoc],':');
-                int numTocks = getNumWords(envp[keyLoc],':');
-//                printVec(thePath); //.................................debugging
-                char * finalPath;
+                rc = fork();
+                if (rc < 0) { // fork failed; exit
+                    fprintf(stderr, "fork failed\n");
+                    exit(1);
+                }else if(rc == 0){
+                    if(argc > 1){
+                        char * path = argv[1];
+                        char ** thePath;
+                    }
+                }else{
+                    printf("I am child (pid: %d)\n\n",(int)getpid()); ff;
+                    int keyLoc = getPath(envp);
                 
-                for(int i = 0; i < numTocks; i ++){
-                    char * temp = appendStr(thePath[i], "/\0");
-                    finalPath = appendStr(temp, cmdVec[0]);
+                    char ** thePath = myTock2(envp[keyLoc],':');
                     
+//                int numTocks = getNumWords(envp[keyLoc],':');
+        //        printVec(thePath); //.................................debugging
+//                printf("\nnumTocks: %d",numTocks);
+//                char * finalPath;
+                    char ** temp = thePath;
+        //        for(int i = 0; i < numTocks; i ++){
+                    for(;temp; temp++){
+                    char * finalPath = appendStr(*temp, argv[0]);
+                    
+                    printf("\nfinal path: %s",finalPath); ff;
+//                    printStr(finalPath);
 //                    printVec(cmdVec);
-                    status = stat(finalPath, &buffer);
-                    printf("Status: %d",status); ff;
-//                    if(stat(finalPath, &buffer) == 0 && buffer.st_mode & S_IXOTH){
-                        rc = fork();
-                            if (rc < 0) { // fork failed; exit
-                                fprintf(stderr, "fork failed\n");
-                                exit(1);
-                            }
-                            cmdVec[0] = finalPath;
-                        execve(finalPath, cmdVec, envp);     // runs word count 
-                         printf("after executing");  ff;
-//                    }
-                }
+//                    status = stat(finalPath, &buffer);                    printf("Status: %d\n",status); ff;
+//                    if(stat(finalPath, &buffer) == 0 ){//&& buffer.st_mode & S_IXOTH){
                 
+              //          cmdVec[0] = finalPath;
+                    int ret = execve(finalPath, argv, envp);     // runs word count 
+                    printf("after executing");  ff;
+//                    }
+                    }
                 printf("this shouldn’t print out");  
-            } 
-            else {         // parent goes down this path (main)
+                } 
+         // parent goes down this path (main)
                 int wc = wait(NULL);
                 printf("hello, I am parent of %d (wc:%d) (pid:%d)\n", rc, wc, (int)getpid()); 
-            }
-            return 0;  
-            //freeMem(tokenVec,str);
+        }
+        return 0;  
+        //freeMem(tokenVec,str);
         //}
     }
     write(1,"End Of loop",11);
