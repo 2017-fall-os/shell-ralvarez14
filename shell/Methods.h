@@ -10,3 +10,5 @@ void printStr(char * tokenVec);
 void appd(char* s, char c);
 
 int getPath(char ** envp);
+
+void executeShell(int argc, char **argv, char ** envp);

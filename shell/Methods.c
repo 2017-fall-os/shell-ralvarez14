@@ -38,6 +38,7 @@ int getPath(char ** envp){
 
     return keyLoc;
 }
+
 char * appendStr(char * s1, char * s2){
   int s1num = getSize(s1);
   int s2num = getSize(s2);
@@ -45,17 +46,17 @@ char * appendStr(char * s1, char * s2){
   int i;
   int j;
   
-  char * curr = (char *) malloc(len+2);
-  curr[len] = '\0';
+  char * curr = (char *) malloc(len+1);
   
   for(i = 0; i < s1num; i ++){
       curr[i] = s1[i];
   }
   curr[i] = '/'; i++;
   
-  for(j = 0; j < s2num; j++){
+  for(j = 0; j < s2num -1; j++){
       curr[i] = s2[j];
       i++;
   }
+  curr[len] = '\0';
     return curr;
 }
