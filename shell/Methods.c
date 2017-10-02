@@ -60,3 +60,20 @@ char * appendStr(char * s1, char * s2){
   curr[len] = '\0';
     return curr;
 }
+
+void read_from_pipe (int file){
+  FILE *stream;
+  int c;
+  stream = fdopen (file, "r");
+  while ((c = fgetc (stream)) != EOF)
+    putchar (c);
+  fclose (stream);
+}
+
+void write_to_pipe (int file){
+  FILE *stream;
+  stream = fdopen (file, "w");
+  fprintf (stream, "hello, world!\n");
+  fprintf (stream, "goodbye, world!\n");
+  fclose (stream);
+}
