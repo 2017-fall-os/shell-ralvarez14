@@ -61,6 +61,20 @@ char * appendStr(char * s1, char * s2){
     return curr;
 }
 
+int compare_info(char *array1, char *array2){
+    int i;
+    int response = 0;
+    i = 0;
+
+    while(array1[i] == array2[i] && response == 0 ){
+        if(array1[i] == '\0' || array2[i] == '\0'){
+            response = 1;
+        }
+        i++;
+    }
+    return response;
+}
+
 void read_from_pipe (int file){
   FILE *stream;
   int c;

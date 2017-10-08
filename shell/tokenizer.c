@@ -122,6 +122,7 @@ char ** myTock2(char str0 [], char delim){
         str = str2+tkSize;
     }
     tokenVec[i] = '\0';
+//    printVec(tokenVec);
 //    printf("Inside myTock2");
     return tokenVec;
 }
@@ -139,6 +140,7 @@ char ** myTock(char str [], char delim){
         str = str2+tkSize;
     }
     tokenVec[i] = '\0';  
+    printVec(tokenVec);
 //    printf("Inside myTock");
     return tokenVec;
 }

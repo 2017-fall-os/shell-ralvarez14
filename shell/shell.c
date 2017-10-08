@@ -19,7 +19,7 @@ int main(int argc, char **argv, char ** envp){
     int status;
     int rc;
     
-    pid_t pid;                         // pid
+    pid_t childpid;                         // pid
     int myPipe[2];                     // pipe array
     
     while(!exitShell){
@@ -29,20 +29,26 @@ int main(int argc, char **argv, char ** envp){
         exitShell = cmpExt(str);       // check if imput is "exit" command
         if(exitShell == 0){ 
             
-            if(pipe (myPipe)){                          // piping?
-                printf("Pipe failed!\n");
-                return EXIT_FAILURE;
-            }
-            
             argv = myTock(str,' '); 
+            pipe(myPipe);                                 //piping?
             rc = fork();
-            if (rc < 0) { // fork failed; exit
-                fprintf(stderr, "fork failed\n");
-                exit(2);
-            }else if(rc == 0){
-                close(myPipe[1]);                       // added this for piping
-                read_from_pipe(myPipe[0]);
+            
+            if(rc == -1){
+                perror("fork");
+                exit(1);
+            }
+            else if(rc == 0){
+                close(myPipe[0]);         // added this for piping
+//                read_from_pipe(myPipe[0]);
                 
+                if(compare_info(argv[0], "cd")){
+                   // char * path = appendStr("/",argv[1]);
+                    int ret = chdir(argv[1]);
+                    if(ret!=0){
+                        perror("Error");
+                    }
+                    
+                }else{
                 int keyLoc = getPath(envp);
                 char ** thePath = myTock2(envp[keyLoc],':');
                 char ** temp = thePath;
@@ -51,14 +57,12 @@ int main(int argc, char **argv, char ** envp){
                     execve(finalPath, argv, envp); // runs word count 
                 }
                 printf("this shouldn’t print out");  
-            }else{
+                }
+            }else{  // if parent
                 if(argc > 0){
-                    close(myPipe[0]);                   // Added this for piping
-                    write_to_pipe(myPipe[0]);
-                    
+                    close(myPipe[1]);        // Added this for piping
                     char * path = argv[1];
-                    char ** thePath;
-//                    freeMem(argv);
+                    char ** thePath;;
                     for(int i = 0; i < 1024; i ++)
                         str[i] = '\0';
                     int wc = wait(NULL);
