@@ -19,8 +19,8 @@ int main(int argc, char **argv, char ** envp){
     int status;
     int rc;
     
-    pid_t childpid;                         // pid
-    int myPipe[2];                     // pipe array
+//    pid_t childpid;                         // pid
+//    int myPipe[2];                     // pipe array
     
     while(!exitShell){
         
@@ -28,9 +28,9 @@ int main(int argc, char **argv, char ** envp){
         read(0,str,sizeof str);
         exitShell = cmpExt(str);       // check if imput is "exit" command
         if(exitShell == 0){ 
-            
             argv = myTock(str,' '); 
-            pipe(myPipe);                                 //piping?
+      //      pipe(myPipe);              // piping?
+            
             rc = fork();
             
             if(rc == -1){
@@ -38,17 +38,19 @@ int main(int argc, char **argv, char ** envp){
                 exit(1);
             }
             else if(rc == 0){
-                close(myPipe[0]);         // added this for piping
-//                read_from_pipe(myPipe[0]);
+  //              close(myPipe[0]);         // added this for piping
                 
+//                if(argc > 1){
+//                    char * finalPath = argv[1];
+//                    execve(finalPath, argv, envp);
+//                }
                 if(compare_info(argv[0], "cd")){
-                   // char * path = appendStr("/",argv[1]);
+                    printf("Inside if cd\n");
                     int ret = chdir(argv[1]);
-                    if(ret!=0){
-                        perror("Error");
-                    }
+                    exit(1);
+                }
                     
-                }else{
+                else{
                 int keyLoc = getPath(envp);
                 char ** thePath = myTock2(envp[keyLoc],':');
                 char ** temp = thePath;
@@ -60,7 +62,7 @@ int main(int argc, char **argv, char ** envp){
                 }
             }else{  // if parent
                 if(argc > 0){
-                    close(myPipe[1]);        // Added this for piping
+              //      close(myPipe[1]);        // Added this for piping
                     char * path = argv[1];
                     char ** thePath;;
                     for(int i = 0; i < 1024; i ++)
