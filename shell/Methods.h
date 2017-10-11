@@ -17,5 +17,6 @@ void read_from_pipe (int file);
 
 void write_to_pipe (int file);
 
+int getSize(char str []);
 
 int compare_info(char *array1, char *array2);
