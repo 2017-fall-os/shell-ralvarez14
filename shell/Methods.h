@@ -1,22 +1,44 @@
- 
+
+int strCmp(char * string1, char * string2);
+
+void execute(char ** argv, char ** envp);
+
+int getPS1(char ** envp);
+
 int getKeyLoc(char ** envp, int keyLoc);
 
-char * appendStr(char * path, char * cmd);
-    
-char * appendCmd(char tkn, char * path);
+char * appendStr(char * path, char * cmd, char delim);
 
 void printStr(char * tokenVec);
 
-void appd(char* s, char c);
-
 int getPath(char ** envp);
-
-void executeShell(int argc, char **argv, char ** envp);
-
-void read_from_pipe (int file);
-
-void write_to_pipe (int file);
 
 int getSize(char str []);
 
-int compare_info(char *array1, char *array2);
+int isPiping(char str []);
+
+int isDelim(char str [], char delim);
+
+int doPipes(char ** argv,char ** envp, int myPipe []);
+
+/***********Tokenizer Commands********************/
+
+int getStrSize(char str []);
+
+int getTokenSize(char str [], char delim);
+
+char * trim(char * str, char delim);
+
+int getNumWords(char str [],char delim);
+
+char * cpyToken(char * str2, int tkSize);
+
+void printVec(char ** tokenVec,char * msg);
+
+void freeMem(char ** tokenVec);
+
+char * trimEq(char str []);
+
+char ** myTock2(char str0 [], char delim);
+
+char ** myTock(char str [], char delim);

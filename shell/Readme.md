@@ -8,3 +8,5 @@ Edit: for the second part of the lab I was able to create background process, an
 
 
 Edit 2: CD command bugs has been resolved, working fine; currently working on piping
+
+Edit 3 [11/17/2017] : pipes and parameters for commands, as well as PS1 variable are working properly
