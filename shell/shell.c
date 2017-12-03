@@ -1,3 +1,4 @@
+ 
 //#include "tokenizer.h"
 #include "Methods.h"
 #include <stdio.h>
@@ -34,7 +35,7 @@ int main(int argc, char **argv, char ** envp){
             write(1,getenv("PS1"),PS1Length);
         }else{
            // printf("Here bby");ff;
-            write(1,"$ ",2);
+           setenv("PS1","$ ",0);
         }
         amountRead = read(0,userImput,sizeof userImput); //read user imput
         if(amountRead == 0){
