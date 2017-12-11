@@ -1,12 +1,15 @@
 
-run: shell.o Methods.o
-	cc shell.o Methods.o -o run
+exeSh: myShell.o sysCalls.o Commands.o
+	cc myShell.o sysCalls.o Commands.o -o exeSh
 	
-shell.o: shell.c
-	cc -c -g shell.c
+myShell.o: myShell.c
+	cc -c -g myShell.c
 
-Methods.o: Methods.c
-	cc -c  -g Methods.c
+Commands.o: Commands.c
+	cc -c -g Commands.c
+
+sysCalls.o: sysCalls.c
+	cc -c -g sysCalls.c
 
 clean:
 	rm -f *.o out
