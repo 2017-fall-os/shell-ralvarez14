@@ -29,8 +29,8 @@ int main(int argc, char **argv, char ** envp){
     
        
     while(!exitShell){
-         if(getenv("PS1")){
-            char * PS1 = getenv("PS1");
+         if(strCmp(PS1,"")){//(getenv("PS1")){
+           // char * PS1 = getenv("PS1");
             int PS1Length = getStrSize(PS1);
             write(1,getenv("PS1"),PS1Length);
         }else{
